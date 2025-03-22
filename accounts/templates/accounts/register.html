@@ -1,0 +1,26 @@
+{% block content %}
+<script src="https://cdn.tailwindcss.com"></script>
+    <div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-blue-300">
+        <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+            <h1 class="text-3xl font-bold text-gray-800 text-center">Kayıt Ol</h1>
+            <hr class="my-4 border-gray-300">
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block text-gray-700 font-semibold mb-1">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ field.errors.as_text }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md">
+                    Kaydet
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
