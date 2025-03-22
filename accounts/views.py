@@ -34,7 +34,7 @@ def post_list(request): #girislerin listelenmesi
     posts = CustomUser.objects.all().order_by('-date_joined')
     return render(request, 'accounts/post_list.html', {'posts': posts})
 
-def post_update(request, pk): #girislerin güncelenebilmesi
+def post_update(request, pk): #girislerin güncellenebilmesi
     post = get_object_or_404(CustomUser, pk=pk)
     if request.method == "POST":
         form = CustomUserChangeForm(request.POST, instance=post)
