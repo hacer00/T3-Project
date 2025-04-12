@@ -7,10 +7,18 @@
 
 ---------------------------------------------------------------------------------------------
 
-#### models.py (database modellerini oluştuğu dosya)
+#### Login Page
 
-![image_alt](https://github.com/hacer00/T3-Project/blob/97b3caf549161da7806a6658d8cbde075305aa81/model.png)
+![image_alt](https://github.com/hacer00/T3-Project/blob/59efdbadbae710d0872677047408eda1cdf75229/image/image1.png)
 
-#### view (genel kod)
+#### Register Page
 
-![image_alt](https://github.com/hacer00/T3-Project/blob/97b3caf549161da7806a6658d8cbde075305aa81/view.png)
+![image_alt](https://github.com/hacer00/T3-Project/blob/59efdbadbae710d0872677047408eda1cdf75229/image/image2.png)
+
+#### Posts Details
+
+![image_alt](https://github.com/hacer00/T3-Project/blob/59efdbadbae710d0872677047408eda1cdf75229/image/image3.png)
+
+#### Posts Updates
+
+![image_alt](https://github.com/hacer00/T3-Project/blob/59efdbadbae710d0872677047408eda1cdf75229/image/image4.png)
