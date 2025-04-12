@@ -1,0 +1,61 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+    <!-- Görev Başlık ve Açıklama -->
+    <h1 class="text-3xl font-semibold text-gray-900">{{ task.title }}</h1>
+    <p class="mt-2 text-gray-700">{{ task.description }}</p>
+
+    <div class="mt-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-0">Yorum Ekle</h2>
+        <form method="post" action="{% url 'add_comment' task.id %}" class="space-y-1">
+            {% csrf_token %}
+            <textarea name="text" placeholder="Yorumunuzu yazın..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3"></textarea>
+            <div>
+                <label for="tagged_users" class="block text-sm font-medium text-gray-600">Kişileri Etiketle</label>
+                <select name="tagged_users" multiple class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition">Yorum Ekle</button>
+        </form>
+    </div>
+
+    <div class="mt-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-0">Dosya Ekle</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'add_attachment' task.id %}" class="space-y-2">
+            {% csrf_token %}
+            <input type="file" name="file" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="w-full py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition">Dosya Ekle</button>
+        </form>
+    </div>
+
+    <div class="mt-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-0">Yorumlar</h2>
+        <div class="space-y-1">
+            {% for comment in task.comments.all %}
+                <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center">
+                        <p class="font-semibold text-gray-800">{{ comment.user.username }}:</p>
+                        <span class="text-sm text-gray-500">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+                    </div>
+                    <p class="text-gray-700 mt-1">{{ comment.content }}</p>
+                    {% for tagged_user in comment.tagged_users.all %}
+                        <span class="inline-block mt-2 text-blue-500">@{{ tagged_user.username }}</span>
+                    {% endfor %}
+                </div>
+            {% empty %}
+                <p class="text-gray-500">Henüz yorum yok.</p>
+            {% endfor %}
+        </div>
+
+        <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-0">Dosyalar</h2>
+        <div class="space-y-1">
+            {% for attachment in task.attachments.all %}
+                <a href="{{ attachment.file.url }}" class="text-blue-600 hover:underline">{{ attachment.file.name }}</a>
+            {% empty %}
+                <p class="text-gray-500">Yüklenmiş dosya yok.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

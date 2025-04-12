@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duyuru Detayı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="container mx-auto p-6">
+        <a href="{% url 'announcement_list' %}" class="text-blue-500 hover:underline">← Geri Dön</a>
+        <h1 class="text-3xl font-bold mt-4">{{ announcement.title }}</h1>
+        <p class="text-gray-600 text-sm">Yayınlayan: {{ announcement.author }} - {{ announcement.created_at|date:"d M Y H:i" }}</p>
+        <p class="mt-4">{{ announcement.content }}</p>
+    </div>
+</body>
+</html>

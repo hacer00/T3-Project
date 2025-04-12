@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Detayı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="container mx-auto p-6">
+        <a href="{% url 'task_list' %}" class="text-blue-500 hover:underline">← Geri Dön</a>
+        <h1 class="text-3xl font-bold mt-4">{{ task.title }}</h1>
+        <p class="mt-4">{{ task.description }}</p>
+    </div>
+</body>
+</html>
