@@ -1,9 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Task, TaskComment, TaskAttachment
+from .models import Task, TaskComment, TaskAttachment, Notification
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
+from django.core.mail import send_mail
 
 User = get_user_model()
 
@@ -31,9 +32,31 @@ def add_task(request):
             title=title,
             description=description,
             assigned_to_id=assigned_to_id,
+            assigned_by=request.user,
             status=status,
             deadline=deadline
         )
+
+        if assigned_to_id and int(assigned_to_id) != request.user.id:
+            Notification.objects.create(
+                recipient=task.assigned_to,
+                actor=request.user,
+                verb=',Tarafından göreve atandınız',
+                target=task.title,
+                url=f'/tasks/{task.id}/'
+            )
+
+        send_mail(subject="Yeni Görev Ataması",
+                  message=f"Merhaba {task.assigned_to.get_full_name() or task.assigned_to.username},\n"
+                          f"'{task.title}' başlıklı bir görev atandı. \n"
+                          f"Açıklama: {task.description}\n"
+                          f"Durum: {task.status}\n"
+                          f"Son Tarih: {task.deadline}\n"
+                          f"Sistemden detayları görebilirsiniz.",
+                  from_email=None,
+                  recipient_list=[task.assigned_to.email],
+                  fail_silently=False,)
+        
 
         if request.POST.get('text'):
             TaskComment.objects.create(
@@ -103,8 +126,38 @@ def add_comment(request, task_id):
 
         comment.tagged_users.set(tagged_users) 
         comment.save()
+        if task.assigned_to and task.assigned_to != request.user:
+            Notification.objects.create(
+                recipient=task.assigned_to,
+                actor=request.user,
+                verb=',Göreve yorum eklendi',
+                target=task.title,
+                url=f'/tasks/{task.id}/'
+            )
+
+        # Görevi atayana bildirim 
+        if task.assigned_by != request.user and task.assigned_by != task.assigned_to:
+            Notification.objects.create(
+                recipient=task.assigned_by,
+                actor=request.user,
+                verb=',Göreve yorum eklendi',
+                target=task.title,
+                url=f'/tasks/{task.id}/'
+            )
+
+        # Taglenen kullanıcılara bildirim gönder
+        for user in tagged_users:
+            if user != request.user:
+                Notification.objects.create(
+                    recipient=user,
+                    actor=request.user,
+                    verb=',Bir yorumda size etiketledi',
+                    target=task.title,
+                    url=f'/tasks/{task.id}/'
+                )
 
         messages.success(request, "Yorum başarıyla eklendi!")
+
     return redirect('task_detail',  task_id=task.id)
 
 @login_required
@@ -116,3 +169,7 @@ def add_attachment(request, task_id):
         messages.success(request, "Dosya başarıyla eklendi!")
     return redirect('task_detail', task_id=task.id)
 
+@login_required
+def notification_list(request):
+    notifications = request.user.notifications.order_by('-timestamp')
+    return render(request, 'accounts/notifications.html', {'notifications': notifications})

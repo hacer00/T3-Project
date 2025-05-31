@@ -1,0 +1,72 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Site Başlığı{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    {% if messages %}
+        <div id="message-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+            {% for message in messages %}
+                <div class="mb-2 px-4 py-2 rounded text-white shadow transition-opacity duration-500
+                    {% if message.tags == 'error' %}bg-red-500
+                    {% elif message.tags == 'success' %}bg-green-500
+                    {% elif message.tags == 'warning' %}bg-yellow-500
+                    {% else %}bg-blue-500{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <div class="text-center mb-8">
+      {% if user.is_authenticated %}
+        <div class="mt-4">
+          <a href="{% url 'logout' %}"
+            class="absolute top-4 right-6 px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 z-50">
+            Çıkış Yap
+          </a>
+          <a href="{% url 'notification_list' %}"
+            class="absolute top-4 right-32 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 z-50">
+            Bildirimler
+          </a>
+          
+        </div>
+      {% else %}
+        <!-- Giriş Yap Butonu -->
+        <a href="{% url 'login' %}" class="absolute top-4 right-6 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
+          Giriş Yap
+        </a>
+      {% endif %}
+    </div>
+
+    {% if request.path != "/" %}
+        <button 
+            onclick="window.history.back()" 
+            class="mb-1 ml-4 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg shadow">
+            ← Geri
+        </button>
+    {% endif %}
+    <!-- Sayfa İçeriği -->
+    <div class="p-2">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('message-container');
+            if (container) {
+                setTimeout(() => {
+                    container.style.opacity = '0';
+                    setTimeout(() => container.remove(), 500); 
+                }, 2000); 
+            }
+        });
+    </script>
+
+
+</body>
+</html>

@@ -1,5 +1,9 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.utils import timezone
+
+User = get_user_model()
 
 class Task(models.Model):
     STATUS_CHOICES = [
@@ -30,3 +34,14 @@ class TaskComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     tagged_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='tagged_in_comments', blank=True)
 
+class Notification(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    actor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='actions')
+    verb = models.CharField(max_length=255)  # Örn: "Görev atandı"
+    target = models.CharField(max_length=255, blank=True, null=True) 
+    url = models.URLField(blank=True, null=True)
+    read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.actor} {self.verb} {self.target} -> {self.recipient}"

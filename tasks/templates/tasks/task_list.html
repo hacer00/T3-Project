@@ -1,5 +1,8 @@
-<h1 class="text-3xl font-bold text-center mb-6">My Tasks</h1>
+{% extends 'base.html' %}
 <script src="https://cdn.tailwindcss.com"></script>
+{% block content %}
+<h1 class="text-3xl font-bold text-center mb-6">My Tasks</h1>
+
 {% if user.is_authenticated %}
     <p class="text-center text-lg mb-4">Merhaba, {{ user.username }}!</p>
 {% else %}
@@ -7,6 +10,7 @@
 {% endif %}
 
 <div class="flex justify-between space-x-6">
+    <!-- To Do Column -->
     <div class="kanban-column w-1/3 bg-gray-100 p-4 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold text-center text-purple-600 mb-4">To Do</h2>
         <ul>
@@ -28,6 +32,7 @@
         </ul>
     </div>
 
+    <!-- In Progress Column -->
     <div class="kanban-column w-1/3 bg-gray-100 p-4 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold text-center text-yellow-600 mb-4">In Progress</h2>
         <ul>
@@ -76,3 +81,4 @@
         + Görev Ata
     </a>
 </div>
+{% endblock %}
