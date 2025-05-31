@@ -7,21 +7,21 @@
 
 ---------------------------------------------------------------------------------------------
 
-#### Tasks (Kanban Board)
+#### Ekiplerim Sayfası
 
-![image_alt](https://github.com/hacer00/T3-Project/blob/cdce98df910852eb74c8ec0abdc702aba578198d/image/image5.png)
+![image_alt](https://github.com/hacer00/T3-Project/blob/01d3f40145e1560af14d50afea03624ee6b04ac0/image/image8.png)
 
-#### Task Assigment
+#### Yeni Ekip Oluşturma Sayfası
 
-![image_alt](https://github.com/hacer00/T3-Project/blob/cdce98df910852eb74c8ec0abdc702aba578198d/image/image6.png)
+![image_alt](https://github.com/hacer00/T3-Project/blob/01d3f40145e1560af14d50afea03624ee6b04ac0/image/image9.png)
 
-#### Attach and Commment
+#### Bildirimler
 
-![image_alt](https://github.com/hacer00/T3-Project/blob/cdce98df910852eb74c8ec0abdc702aba578198d/image/image7.png)
+![image_alt](https://github.com/hacer00/T3-Project/blob/01d3f40145e1560af14d50afea03624ee6b04ac0/image/image10.png)
 
-#### Login Page
+#### Mail Gönderimi
 
-![image_alt](https://github.com/hacer00/T3-Project/blob/59efdbadbae710d0872677047408eda1cdf75229/image/image1.png)
+![image_alt](https://github.com/hacer00/T3-Project/blob/01d3f40145e1560af14d50afea03624ee6b04ac0/image/image11.png)
 
 #### Register Page
 
